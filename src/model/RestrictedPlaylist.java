@@ -5,18 +5,20 @@ public class RestrictedPlaylist extends Playlist {
     private static final int MAX_USERS = 5;
     private String[] accesedBy;
 
-    public RestrictedPlaylist(String name) {
-        super(name);
+    public RestrictedPlaylist(String name, String owner) {
+        super(name,owner);
+        accesedBy = new String[MAX_USERS];
+        accesedBy[0] = owner;
     }
 
-    public String addUser(String userName){
+    public void addUser(String userName){
 
         boolean added = false;
         String msg = "Numero de usuarios excedido";
 
         for (int i = 0; i < MAX_USERS && !added; i++) {
 
-            if (accesedBy == null){
+            if (accesedBy[i] == null){
 
                 accesedBy[i] = userName;
                 added = true;
@@ -24,11 +26,23 @@ public class RestrictedPlaylist extends Playlist {
             }
         }
 
-        if (!added){
+        if (added == true){
             msg = "Se ha agregado el usuario";
         }
 
-        return msg;
+        System.out.println(msg);
     }
 
+    @Override
+    public int getType(){
+
+        return 2;
+    }
+
+    public String[] getAccesedBy(){
+
+        return accesedBy;
+
+    }
+    
 }

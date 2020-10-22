@@ -84,10 +84,21 @@ public class User {
 
     }
 
-    public String grantAccessToPlaylist(String userName){
+    public void grantAccessToPlaylist(String userName,String playlistName){
 
+        for (int i = 0; i < MAX_PLAYLISTS; i++) {
 
+            if (playlistName.equals(playlists[i].getName())){
 
+                if(playlists[i].getType() == 2){
+
+                    ((RestrictedPlaylist)playlists[i]).addUser(userName);
+
+                }
+
+            }
+
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class MCS {
@@ -26,7 +27,7 @@ public class MCS {
 
         User newUser = new User(userName, passWord, age);
         boolean added = false;
-        String msg = "Usuario no anadido";
+        String msg = "Usuario no anadido" + "\n";
 
         for (int i = 0; i <= MAX_USERS && !added; i++) {
 
@@ -41,7 +42,7 @@ public class MCS {
         return msg;
     }
 
-    public String addSongToPool(String title, String artist, String releaseDate, String duration, int genre, String userName, String passWord) {
+    public String addSongToPool(String title, String artist, String releaseDate, String duration, int genre) {
 
         Song newSong = new Song(title, artist, releaseDate, duration, genre);
         boolean added = false;
@@ -63,12 +64,12 @@ public class MCS {
             }
 
             if (!added) {
-                msg = "Se ha llegado al maximo de canciones en el Pool";
+                msg = "Se ha llegado al maximo de canciones en el Pool" + "\n";
             }
 
         } else {
 
-            msg = "Usuario o contrasena incorrectos";
+            msg = "No se ha iniciado sesion" + "\n";
         }
 
         return msg;
@@ -77,25 +78,33 @@ public class MCS {
     public String login(String userName, String password) {
 
         boolean verified = false;
-        loggedIn = 10;
-        String msg = "Usuario no existe (Register)";
+        String msg = "Usuario no existe (Register)" + "\n";
 
         for (int i = 0; i < MAX_USERS && !verified; i++) {
 
-            if (users[i].getUserName().equals(userName)) {
+            if (users[i] != null) {
+                if (users[i].getUserName().equals(userName)) {
 
-                if (users[i].getPassWord().equals(password)) {
+                    if (users[i].getPassWord().equals(password)) {
 
-                    verified = true;
-                    loggedIn = i;
-                    msg = "Bienvenido";
+                        verified = true;
+                        loggedIn = i;
+                        msg = "Bienvenido " + users[loggedIn].getUserName() + "\n";
+                    }
+
                 }
-
             }
         }
+
         return msg;
     }
 
+    public String logOut() {
+
+        loggedIn = 10;
+        return "¡Hasta pronto!";
+
+    }
 
 
     public void assignCategories() {
@@ -125,64 +134,344 @@ public class MCS {
     }
 
     public String createPlaylist(String name, int type) {
-        boolean created = false;
+        boolean added = false;
         Scanner input = new Scanner(System.in);
-        String msg = "Se ha excedido el numero de playlists";
+        String msg = "Se ha excedido el numero de playlists" + "\n";
 
         if (loggedIn != 10) {
             switch (type) {
 
                 case 1:
-                    Playlist playlist = new Playlist(name);
+                    Playlist playlist = new Playlist(name, users[loggedIn].getUserName());
                     users[loggedIn].createPlaylist(playlist);
-                    msg = "Playlist " + name + " creada";
+
+                    for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
+                        if (playlists[i] == null) {
+
+                            playlists[i] = playlist;
+                            added = true;
+
+                        }
+                    }
+
+                    msg = "Playlist " + name + " creada" + "\n";
                     break;
                 case 2:
-                    RestrictedPlaylist restrictedPlaylist = new RestrictedPlaylist(name);
+                    RestrictedPlaylist restrictedPlaylist = new RestrictedPlaylist(name, users[loggedIn].getUserName());
                     users[loggedIn].createPlaylist(restrictedPlaylist);
-                    msg = "Playlist " + name + " creada";
+
+                    for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
+                        if (playlists[i] == null) {
+
+                            playlists[i] = restrictedPlaylist;
+                            added = true;
+
+                        }
+                    }
+                    msg = "Playlist " + name + " creada" + "\n";
                     break;
                 case 3:
-                    PublicPlaylist privatePlaylist = new PublicPlaylist(name);
-                    users[loggedIn].createPlaylist(privatePlaylist);
-                    msg = "Playlist " + name + " creada";
+                    PublicPlaylist publicPlaylist = new PublicPlaylist(name, users[loggedIn].getUserName());
+                    users[loggedIn].createPlaylist(publicPlaylist);
+
+                    for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
+                        if (playlists[i] == null) {
+
+                            playlists[i] = publicPlaylist;
+                            added = true;
+
+                        }
+                    }
+
+                    msg = "Playlist " + name + " creada" + "\n";
                     break;
 
             }
+        } else {
+            msg = "No se ha iniciado sesion" + "\n";
         }
+        return msg;
+    }
 
-        else{
+    public String addSongToPlaylist() {
+
+        Scanner input = new Scanner(System.in);
+        String msg = "Cancion no ha sido compartida" + "\n";
+        boolean found = false;
+        int songIndex = 0;
+        String title;
+
+        if (loggedIn != 10) {
+            System.out.println("Ingrese titulo de cancion que desea agregar");
+            title = input.next();
+
+            for (int i = 0; i < MAX_SONGS && !found; i++) {
+
+                if (songPool[i] != null) {
+
+                    if (title.equalsIgnoreCase(songPool[i].getTitle())) {
+
+                        found = true;
+                        songIndex = i;
+                    }
+
+                }
+            }
+            if (found) {
+
+                found = false;
+                displayPlaylists();
+                System.out.println("Ingrese nombre de la playlist a la que desea agregar");
+                title = input.next();
+
+                for (int i = 0; i < MAX_PLAYLISTS && !found; i++) {
+
+                    if (playlists[i] != null) {
+
+                        if (title.equalsIgnoreCase(playlists[i].getName())) {
+
+                            playlists[i].addSong(songPool[songIndex]);
+                            msg = "Cancion agregada a " + playlists[i].getName() + "\n";
+                            found = true;
+
+
+                        }
+                    }
+                }
+
+
+                if (!found) {
+
+                    msg = "No existe esa PlayList" + "\n";
+                }
+            }
+        } else {
             msg = "No se ha iniciado sesion";
-
         }
-            return msg;
+
+        return msg;
 
     }
 
-    public void addSongToPlaylist(){
 
-        Scanner input = new Scanner(System.in);
-        String msg = "Cancion no ha sido compartida";
-        boolean found = false;
-        String title;
+    public void displayPlaylists() {
 
-        System.out.println("Ingrese titulo de cancion que desea agregar");
-        title = input.next();
+        String msg;
+        System.out.println("PLAYLISTS PUBLICAS: ");
 
-        for (int i = 0; i < MAX_SONGS && !found; i++) {
+        for (int i = 0; i < MAX_PLAYLISTS; i++) {
 
-            if (title.equalsIgnoreCase(songPool[i].getTitle())){
+            if (playlists[i] != null) {
+                if (playlists[i].getType() == 3) {
 
-                found = true;
+                    playlists[i].showContents();
+
+
+                }
+            }
+
+        }
+        System.out.println("PLAYLISTS PRIVADAS: ");
+
+        for (int i = 0; i < MAX_PLAYLISTS; i++) {
+
+            if (playlists[i] != null) {
+                if (playlists[i].getType() == 1) {
+
+                    System.out.println(users[loggedIn].getUserName());
+
+                    if (users[loggedIn].getUserName() == playlists[i].getOwner()) ;
+                    {
+
+                        playlists[i].showContents();
+
+                    }
+
+                }
+
             }
 
         }
 
-        if (found){
 
-                
+        System.out.println("PLAYLISTS RESTRINGIDAS: ");
+        boolean verified = false;
+
+        for (int i = 0; i < MAX_PLAYLISTS; i++) {
+
+            if (playlists[i] != null) {
+
+                if (playlists[i].getType() == 2) {
+
+                    String[] accesedBy = ((RestrictedPlaylist) playlists[i]).getAccesedBy();
+
+                    for (int j = 0; j < 5; j++) {
+
+                        if (users[loggedIn].getUserName().equals(accesedBy[j])) {
+
+                            playlists[i].showContents();
+
+
+                        }
+
+                    }
+                }
+            }
+
 
         }
+
+    }
+
+    public void addUserToPlaylist() {
+
+        String msg;
+        Scanner input = new Scanner(System.in);
+        String playlistTitle;
+        String username;
+        System.out.println("PLAYLISTS RESTRINGIDAS: ");
+        boolean verified = false;
+
+        for (int i = 0; i < MAX_PLAYLISTS; i++) {
+
+            if (playlists[i] != null && playlists[i].getType() == 2) {
+
+                String[] accesedBy = ((RestrictedPlaylist) playlists[i]).getAccesedBy();
+
+                for (int j = 0; j < 5; j++) {
+
+                    if (users[loggedIn].getUserName().equals(accesedBy[j])) {
+
+                        playlists[i].showContents();
+                        verified = true;
+
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (verified) {
+
+            boolean added = false;
+            boolean playlistFound = false;
+            boolean userFound = false;
+
+            System.out.println("Ingrese nombre de la Playlist a la que desea agregar un usuario: " + "\n");
+            playlistTitle = input.next();
+            System.out.println("Ingrese nombre del usuario a agregar: " + "\n");
+            username = input.next();
+
+
+
+            for (int i = 0; i < MAX_PLAYLISTS; i++) {
+
+                if(playlists[i] != null) {
+                    if (playlists[i].getName().equals(playlistTitle)) {
+                        playlistFound = true;
+                    }
+                }
+
+            }
+
+            for (int i = 0; i < MAX_USERS; i++) {
+
+              if(users[i] != null) {
+                  if (users[i].getUserName().equals(username)) {
+                      userFound = true;
+                  }
+              }
+            }
+
+            if (userFound == true && playlistFound == true){
+
+                for (int i = 0; i < MAX_PLAYLISTS; i++) {
+
+                    if (playlists[i] != null && playlists[i].getType() == 2) {
+
+                        ((RestrictedPlaylist) playlists[i]).addUser(username);
+                        added = true;
+
+                    }
+
+                }
+
+            if (!added) {
+
+                System.out.println("Numero de usuarios excedido" + "\n");
+
+                }
+
+            }
+
+            else{
+
+                System.out.println("Usuario o playlist no encontrados" + "\n");
+
+            }
+
+
+
+        }
+
+    }
+
+    public void ratePlaylist(){
+
+        Scanner input = new Scanner(System.in);
+        String name;
+        int rating;
+        boolean found = false;
+        String msg = "No hay playlists para calificar"+"\n";
+
+        for (int i = 0; i < MAX_PLAYLISTS; i++) {
+
+            if(playlists[i]!=null && playlists[i].getType()==3){
+
+                playlists[i].showContents();
+
+                //((PublicPlaylist)playlists[i]).addRating(rating);
+
+            }
+
+        }
+
+        System.out.println("Ingrese nombre de la playlist a calificar");
+        name = input.next();
+        System.out.println("Ingrese calificacion [1-5]");
+        rating = input.nextInt();
+
+    if(rating >= 1 && rating <= 5) {
+        for (int i = 0; i < MAX_PLAYLISTS && !found; i++) {
+
+            if (playlists[i] != null && playlists[i].getName().equals(name)) {
+
+                ((PublicPlaylist) playlists[i]).addRating(rating);
+                msg= "Calificacion anadida" +"\n";
+                found = true;
+
+            }
+
+        }
+    }
+
+    else{
+
+        System.out.println("Calificacion invalida");
+
+    }
+
+    if (found = false){
+
+        System.out.println("Playlist no existe");
+
+    }
+
+        System.out.println(msg);
+
 
 
 
