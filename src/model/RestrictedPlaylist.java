@@ -11,7 +11,7 @@ public class RestrictedPlaylist extends Playlist {
         accesedBy[0] = owner;
     }
 
-    public void addUser(String userName){
+    public String addUser(String userName){
 
         boolean added = false;
         String msg = "Numero de usuarios excedido";
@@ -30,7 +30,7 @@ public class RestrictedPlaylist extends Playlist {
             msg = "Se ha agregado el usuario";
         }
 
-        System.out.println(msg);
+        return msg;
     }
 
     @Override
@@ -38,6 +38,8 @@ public class RestrictedPlaylist extends Playlist {
 
         return 2;
     }
+
+
 
     public String[] getAccesedBy(){
 

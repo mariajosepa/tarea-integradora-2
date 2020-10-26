@@ -2,13 +2,13 @@ package model;
 
 public class User {
 
-    private static final int MAX_PLAYLISTS = 20;
+    //private static final int MAX_PLAYLISTS = 20;
     private String userName;
     private String passWord;
     private int age;
     private Category category;
     private int sharedSongs;
-    private Playlist[] playlists;
+    //private Playlist[] playlists;
 
     public User(String userName, String passWord, int age){
 
@@ -17,7 +17,7 @@ public class User {
         this.age = age;
         category = Category.NEWBIE;
         sharedSongs = 0;
-        playlists = new Playlist[MAX_PLAYLISTS];
+        //playlists = new Playlist[MAX_PLAYLISTS];
 
     }
 
@@ -64,6 +64,7 @@ public class User {
         return sharedSongs;
     }
 
+/*
     public String createPlaylist(Playlist playlist){
 
         boolean added = false;
@@ -83,7 +84,11 @@ public class User {
         return msg;
 
     }
+*/
 
+
+
+/*
     public void grantAccessToPlaylist(String userName,String playlistName){
 
         for (int i = 0; i < MAX_PLAYLISTS; i++) {
@@ -101,6 +106,7 @@ public class User {
         }
     }
 
+ */
 
     public Category getCategory() {
         return category;

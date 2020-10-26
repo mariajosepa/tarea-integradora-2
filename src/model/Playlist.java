@@ -163,7 +163,7 @@ public class Playlist {
         return owner;
     }
 
-    public void showContents(){
+    public String showContents(){
 
         String msg;
         msg = "**************  Playlist **************\n";
@@ -172,7 +172,7 @@ public class Playlist {
         msg += "**  Genre: " +findGenre() + "\n";
         msg += "***************************************" + "\n";
 
-        System.out.println(msg);
+       return msg;
 
 
     }
