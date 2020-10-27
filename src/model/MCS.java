@@ -15,6 +15,7 @@ public class MCS {
     private Playlist[] playlists;
     private int loggedIn;
 
+
     public MCS() {
 
         this.users = new User[MAX_USERS];
@@ -23,6 +24,14 @@ public class MCS {
         loggedIn = 10;
 
     }
+
+    /**
+     * Method for adding new users into the application
+     * @param userName New User's username
+     * @param passWord New User's password
+     * @param age      New User's Age
+     * @return         Message stating if user was successfully registered
+     */
 
     public String register(String userName, String passWord, int age) {
 
@@ -42,6 +51,16 @@ public class MCS {
         }
         return msg;
     }
+
+    /**
+     * Method that adds a new song to the song pool
+     * @param title title of the song
+     * @param artist artist or band of the song
+     * @param releaseDate date song was released
+     * @param duration duration of the song in format mm/ss
+     * @param genre    genre of the song [1-6]
+     * @return  Message stating if the song was added or not to the song pool
+     */
 
     public String addSongToPool(String title, String artist, String releaseDate, String duration, int genre) {
 
@@ -76,6 +95,14 @@ public class MCS {
         return msg;
     }
 
+    /**
+     * Method for logging in a user
+     * An existing user has to be registered before logging in
+     * @param userName Registered username
+     * @param password Registered password
+     * @return Message stating if user was identified in the application's registered users
+     */
+
     public String login(String userName, String password) {
 
         boolean verified = false;
@@ -100,12 +127,21 @@ public class MCS {
         return msg;
     }
 
+    /**
+     * Method for logging out a current user
+     * @return Message stating if user has been logged off or not
+     */
+
     public String logOut() {
 
         loggedIn = 10;
         return "¡Hasta pronto!";
 
     }
+
+    /**
+     * Method that verifies how many songs each registered user has shared, and assigns a category accordingly
+     */
 
     public void assignCategories() {
 
@@ -133,6 +169,13 @@ public class MCS {
         }
     }
 
+    /**
+     * Method that allows a new playlist to be created and added into the application's playlists
+     * @param name Name of the new playlist
+     * @param type  Type [1-3] of playlist
+     * @return Message stating if the new playlist has been created
+     */
+
     public String createPlaylist(String name, int type) {
         boolean added = false;
         Scanner input = new Scanner(System.in);
@@ -142,19 +185,19 @@ public class MCS {
             switch (type) {
 
                 case 1:
-                    Playlist playlist = new Playlist(name, users[loggedIn].getUserName());
+                    PrivatePlaylist playlist = new PrivatePlaylist(name, users[loggedIn].getUserName());
                     //users[loggedIn].createPlaylist(playlist);
 
                     for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
                         if (playlists[i] == null) {
 
                             playlists[i] = playlist;
+                            msg = "Playlist " + name + " creada1" + "\n";
                             added = true;
 
                         }
                     }
 
-                    msg = "Playlist " + name + " creada" + "\n";
                     break;
                 case 2:
                     RestrictedPlaylist restrictedPlaylist = new RestrictedPlaylist(name, users[loggedIn].getUserName());
@@ -164,11 +207,12 @@ public class MCS {
                         if (playlists[i] == null) {
 
                             playlists[i] = restrictedPlaylist;
+                            msg = "Playlist " + name + " creada2" + "\n";
                             added = true;
 
                         }
                     }
-                    msg = "Playlist " + name + " creada" + "\n";
+
                     break;
                 case 3:
                     PublicPlaylist publicPlaylist = new PublicPlaylist(name, users[loggedIn].getUserName());
@@ -178,12 +222,12 @@ public class MCS {
                         if (playlists[i] == null) {
 
                             playlists[i] = publicPlaylist;
+                            msg = "Playlist " + name + " creada3" + "\n";
                             added = true;
 
                         }
                     }
 
-                    msg = "Playlist " + name + " creada" + "\n";
                     break;
 
             }
@@ -192,6 +236,14 @@ public class MCS {
         }
         return msg;
     }
+
+    /**
+     * Methods that adds a song to an existing playlist
+     * There has to be at least one playlist created
+     * @param songTitle title of a shared song
+     * @param playlistTitle title of an existing playlist
+     * @return Message stating if the song was successfully added
+     */
 
     public String addSongToPlaylist(String songTitle, String playlistTitle) {
 
@@ -254,35 +306,39 @@ public class MCS {
 
     }
 
-    public void displayPlaylists() {
+    /**
+     * Displays all the playlists that have been created
+     * @return Playlists that have been created
+     */
 
-        System.out.println("PLAYLISTS PUBLICAS: ");
+    public String displayPlaylists() {
+
+        String msg = "";
+
+        msg += "PLAYLISTS PUBLICAS: " + "\n";
 
         for (int i = 0; i < MAX_PLAYLISTS; i++) {
 
             if (playlists[i] != null) {
+
                 if (playlists[i].getType() == 3) {
 
-                    playlists[i].showContents();
+                    msg += playlists[i].showContents();
 
 
                 }
             }
 
         }
-        System.out.println("PLAYLISTS PRIVADAS: ");
+        msg += "PLAYLISTS PRIVADAS: " + "\n";
 
         for (int i = 0; i < MAX_PLAYLISTS; i++) {
 
             if (playlists[i] != null) {
                 if (playlists[i].getType() == 1) {
 
-                    if (users[loggedIn].getUserName() == playlists[i].getOwner()) ;
-                    {
-
-                        playlists[i].showContents();
-
-                    }
+                    System.out.println("HOLA EH");
+                       msg+= playlists[i].showContents();
 
                 }
 
@@ -291,8 +347,7 @@ public class MCS {
         }
 
 
-        System.out.println("PLAYLISTS RESTRINGIDAS: ");
-        boolean verified = false;
+       msg += "PLAYLISTS RESTRINGIDAS: " + "\n";
 
         for (int i = 0; i < MAX_PLAYLISTS; i++) {
 
@@ -300,32 +355,43 @@ public class MCS {
 
                 if (playlists[i].getType() == 2) {
 
-                    String[] accesedBy = ((RestrictedPlaylist) playlists[i]).getAccesedBy();
+                    //String[] accesedBy = ((RestrictedPlaylist) playlists[i]).getAccesedBy();
 
-                    for (int j = 0; j < 5; j++) {
+                    //for (int j = 0; j < 5; j++) {
 
-                        if (users[loggedIn].getUserName().equals(accesedBy[j])) {
-
-                            playlists[i].showContents();
+                        //if (users[loggedIn].getUserName().equals(accesedBy[j])) {
 
 
-                        }
+                            msg += playlists[i].showContents();
 
-                    }
+
+                        //}
+
+                    //}
                 }
             }
 
 
         }
 
+            return msg;
     }
+
+    /**
+     * Adds a user to a playlist
+     * The only playlists who allow user sharing are Private and Restricted playlists
+     * @param playlistTitle
+     * @param userName
+     * @return Message stating if the user was success fully added
+     */
 
     public String addUserToPlaylist(String playlistTitle, String userName) {
 
-        String msg = "";
+        String msg = "HOLA";
         boolean added = false;
         boolean playlistFound = false;
         boolean userFound = false;
+
         /*
         //System.out.println("PLAYLISTS RESTRINGIDAS: ");
         boolean verified = false;
@@ -353,7 +419,7 @@ public class MCS {
 
          */
 
-            for (int i = 0; i < MAX_PLAYLISTS; i++) {
+           for (int i = 0; i < MAX_PLAYLISTS; i++) {
 
                 if (playlists[i] != null) {
                     if (playlists[i].getName().equals(playlistTitle)) {
@@ -363,7 +429,9 @@ public class MCS {
 
             }
 
-            for (int i = 0; i < MAX_USERS; i++) {
+
+
+            for (int i = 0; i < MAX_USERS && !userFound; i++) {
 
                 if (users[i] != null) {
                     if (users[i].getUserName().equals(userName)) {
@@ -372,35 +440,52 @@ public class MCS {
                 }
             }
 
+
             if (userFound == true && playlistFound == true) {
 
-                for (int i = 0; i < MAX_PLAYLISTS; i++) {
+                for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
 
-                    if (playlists[i] != null && playlists[i].getType() == 2) {
+                    if (playlists[i] != null && playlists[i].getName().equals(playlistTitle) && playlists[i].getType() == 2) {
 
                         msg = ((RestrictedPlaylist) playlists[i]).addUser(userName);
                         added = true;
 
                     }
 
-                }
+                    if (playlists[i] != null && playlists[i].getName().equals(playlistTitle) && playlists[i].getType() == 1) {
 
+                        msg = ((PrivatePlaylist) playlists[i]).addUser(userName);
+
+                        added = true;
+
+                    }
+
+                    if(playlists[i] != null && playlists[i].getType() == 3 && playlists[i].equals(playlistTitle)){
+
+                        msg = "No se pueden agregar usuarios a una playlist publica";
+
+
+                    }
+
+                }
 
             } else {
 
-                msg = "Usuario o playlist no encontrados" + "\n";
+                msg = "Usuario o playlist no encontrado" + "\n";
 
             }
-
 
         return msg;
 
     }
 
-
-
-
-
+    /**
+     * Adds a rating  to a public playlist
+     * At least one public playlist has to be created
+     * @param playlistName public playlist name
+     * @param rating playlist rating
+     * @return Message stating if the rating was successfully added
+     */
 
     public String ratePlaylist(String playlistName, int rating){
 
@@ -450,6 +535,11 @@ public class MCS {
 
 
     }
+
+    /**
+     * Displays all registered users in the application
+     * @return All registered users in the application
+     */
 
     public String displayUsers(){
         String msg = "";

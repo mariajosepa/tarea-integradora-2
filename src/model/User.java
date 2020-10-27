@@ -26,29 +26,22 @@ public class User {
         return userName;
     }
 
-    public void setUserName(String userName) {
-
-        this.userName = userName;
-    }
 
     public String getPassWord() {
 
         return passWord;
     }
 
-    public void setPassWord(String passWord) {
-
-        this.passWord = passWord;
-    }
 
     public int getAge() {
 
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+    /**
+     * Adds +1 shared songs to the user's shared song count
+     * @return Message stating that the song has been shared
+     */
 
     public String shareSong(){
         String msg = "Cancion compartida";
@@ -64,49 +57,6 @@ public class User {
         return sharedSongs;
     }
 
-/*
-    public String createPlaylist(Playlist playlist){
-
-        boolean added = false;
-        String msg = "Se ha excedido el numero de playlists";
-
-        for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
-
-            if (playlists[i]==null){
-
-                playlists[i] = playlist;
-                 msg = "Playlist Creada";
-                 added = true;
-            }
-        }
-
-
-        return msg;
-
-    }
-*/
-
-
-
-/*
-    public void grantAccessToPlaylist(String userName,String playlistName){
-
-        for (int i = 0; i < MAX_PLAYLISTS; i++) {
-
-            if (playlistName.equals(playlists[i].getName())){
-
-                if(playlists[i].getType() == 2){
-
-                    ((RestrictedPlaylist)playlists[i]).addUser(userName);
-
-                }
-
-            }
-
-        }
-    }
-
- */
 
     public Category getCategory() {
         return category;
@@ -116,12 +66,16 @@ public class User {
         this.category = category;
     }
 
+    /**
+     * Displays general info about the user
+     * @return general infor of the user
+     */
     public String displayUser(){
         String msg = "*************User************* \n";
         msg += "**"+"UserName: "+getUserName()+"\n";
         msg += "**"+"Age: " +getAge()+"\n";
         msg += "**"+"Category: " +getCategory().name()+"\n";
-        msg += "********************************";
+        msg += "*******************************";
 
         return msg;
 

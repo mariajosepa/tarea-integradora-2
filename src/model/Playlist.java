@@ -25,17 +25,17 @@ public class Playlist {
 
     public int getType(){
 
-        return 1;
+        return 0;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * Returns the total duration of a playlist adding together the lengths of its songs
+     * @return total length of a playlist
+     */
     public String getDuration() {
 
         int hours;
@@ -97,10 +97,10 @@ public class Playlist {
         return duration;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
+    /**
+     * Returns the genre of a playlist adding together all the different genres of its songs
+     * @return the genre of the playlist
+     */
     public String findGenre(){
         boolean added = false;
         int songsCount = 0;
@@ -131,7 +131,10 @@ public class Playlist {
 
         }
 
-
+    /**
+     * Adds a song to the playlist
+     * @param song the song that is going to be added
+     */
     public void addSong (Song song){
 
         boolean added = false;
@@ -146,23 +149,10 @@ public class Playlist {
 
     }
 
-    public void getSongs(){
-
-        for (int i = 0; i < MAX_SONGS; i++) {
-
-            if(songs[i] != null){
-
-                System.out.println(songs[i].getTitle());
-            }
-
-        }
-
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
+    /**
+     * Displays information about the playlist
+     * @return information about the playlist
+     */
     public String showContents(){
 
         String msg;

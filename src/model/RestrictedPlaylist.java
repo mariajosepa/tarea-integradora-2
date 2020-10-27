@@ -11,6 +11,12 @@ public class RestrictedPlaylist extends Playlist {
         accesedBy[0] = owner;
     }
 
+    /**
+     * Adds a user to the playlist
+     * @param userName username of the user being added to the playlist
+     * @return Message stating if user was added
+     */
+
     public String addUser(String userName){
 
         boolean added = false;
@@ -33,6 +39,11 @@ public class RestrictedPlaylist extends Playlist {
         return msg;
     }
 
+    /**
+     * Returns playlist type (2)
+     * @return playlist type (2) (restricted)
+     */
+
     @Override
     public int getType(){
 
@@ -40,11 +51,5 @@ public class RestrictedPlaylist extends Playlist {
     }
 
 
-
-    public String[] getAccesedBy(){
-
-        return accesedBy;
-
-    }
     
 }

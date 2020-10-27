@@ -65,7 +65,7 @@ public class Menu {
 
     public void logOut() {
 
-        mcs.logOut();
+        System.out.println(mcs.logOut());
     }
 
     public void register() {
@@ -151,12 +151,13 @@ public class Menu {
 
             case 1:
 
+                System.out.println("PlayLists disponibles para compartir:");
+
                 System.out.println("Ingrese nombre de la Playlist");
                 String playlistTitle = input.next();
                 System.out.println("Ingrese nombre del usuario a agregar");
                 String userName = input.next();
 
-                System.out.println("PlayLists disponibles para compartir:");
 
                 System.out.println(mcs.addUserToPlaylist(playlistTitle, userName));
                 break;
@@ -220,7 +221,7 @@ public class Menu {
                 displayUsers();
                 break;
             case SHOW_PLAYLISTS:
-                mcs.displayPlaylists();
+                displayPlaylists();
                 break;
             case LOGOUT:
                 logOut();
@@ -248,5 +249,11 @@ public class Menu {
     }
 
 
+    public void displayPlaylists(){
+
+        System.out.println(mcs.displayPlaylists());
+
+
+    }
 
 }
