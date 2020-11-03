@@ -5,8 +5,8 @@ public class PublicPlaylist extends Playlist{
     private double rating;
     private int rated;
 
-    public PublicPlaylist(String name, String owner) {
-        super(name,owner);
+    public PublicPlaylist(String name) {
+        super(name);
         rating = 0;
     }
 

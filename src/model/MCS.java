@@ -178,21 +178,19 @@ public class MCS {
 
     public String createPlaylist(String name, int type) {
         boolean added = false;
-        Scanner input = new Scanner(System.in);
         String msg = "Se ha excedido el numero de playlists" + "\n";
 
-        if (loggedIn != 10) {
             switch (type) {
 
                 case 1:
-                    PrivatePlaylist playlist = new PrivatePlaylist(name, users[loggedIn].getUserName());
-                    //users[loggedIn].createPlaylist(playlist);
+                    PrivatePlaylist playlist = new PrivatePlaylist(name);
+
 
                     for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
                         if (playlists[i] == null) {
 
                             playlists[i] = playlist;
-                            msg = "Playlist " + name + " creada1" + "\n";
+                            msg = "Playlist " + name + " creada" + "\n";
                             added = true;
 
                         }
@@ -200,14 +198,13 @@ public class MCS {
 
                     break;
                 case 2:
-                    RestrictedPlaylist restrictedPlaylist = new RestrictedPlaylist(name, users[loggedIn].getUserName());
-                    //users[loggedIn].createPlaylist(restrictedPlaylist);
+                    RestrictedPlaylist restrictedPlaylist = new RestrictedPlaylist(name);
 
                     for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
                         if (playlists[i] == null) {
 
                             playlists[i] = restrictedPlaylist;
-                            msg = "Playlist " + name + " creada2" + "\n";
+                            msg = "Playlist " + name + " creada" + "\n";
                             added = true;
 
                         }
@@ -215,25 +212,21 @@ public class MCS {
 
                     break;
                 case 3:
-                    PublicPlaylist publicPlaylist = new PublicPlaylist(name, users[loggedIn].getUserName());
-                    //users[loggedIn].createPlaylist(publicPlaylist);
+                    PublicPlaylist publicPlaylist = new PublicPlaylist(name);
+
 
                     for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
                         if (playlists[i] == null) {
 
                             playlists[i] = publicPlaylist;
-                            msg = "Playlist " + name + " creada3" + "\n";
+                            msg = "Playlist " + name + " creada" + "\n";
                             added = true;
 
                         }
                     }
-
                     break;
-
             }
-        } else {
-            msg = "No se ha iniciado sesion" + "\n";
-        }
+
         return msg;
     }
 
@@ -353,21 +346,9 @@ public class MCS {
 
             if (playlists[i] != null) {
 
-                if (playlists[i].getType() == 2) {
-
-                    //String[] accesedBy = ((RestrictedPlaylist) playlists[i]).getAccesedBy();
-
-                    //for (int j = 0; j < 5; j++) {
-
-                        //if (users[loggedIn].getUserName().equals(accesedBy[j])) {
-
+                if (playlists[i] instanceof RestrictedPlaylist) {
 
                             msg += playlists[i].showContents();
-
-
-                        //}
-
-                    //}
                 }
             }
 
@@ -487,46 +468,43 @@ public class MCS {
      * @return Message stating if the rating was successfully added
      */
 
-    public String ratePlaylist(String playlistName, int rating){
+    public String ratePlaylist(String playlistName, int rating) {
 
         boolean found = false;
-        String msg = "No hay playlists para calificar"+"\n";
+        String msg = "No hay playlists para calificar" + "\n";
 
-        for (int i = 0; i < MAX_PLAYLISTS; i++) {
+        if (loggedIn != 10){
 
-            if(playlists[i]!=null && playlists[i].getType()==3){
+            if (rating >= 1 && rating <= 5) {
+                for (int i = 0; i < MAX_PLAYLISTS && !found; i++) {
 
-                ((PublicPlaylist)playlists[i]).showContents();
+                    if (playlists[i] != null && playlists[i].getName().equalsIgnoreCase(playlistName) && playlists[i] instanceof PublicPlaylist) {
 
-            }
+                        ((PublicPlaylist) playlists[i]).addRating(rating);
+                        msg = "Calificacion anadida" + "\n";
+                        found = true;
 
-        }
-
-        if(rating >= 1 && rating <= 5) {
-            for (int i = 0; i < MAX_PLAYLISTS && !found; i++) {
-
-                if (playlists[i] != null && playlists[i].getName().equals(playlistName) && playlists[i].getType()==3) {
-
-                    ((PublicPlaylist) playlists[i]).addRating(rating);
-                    msg= "Calificacion anadida" +"\n";
-                    found = true;
+                    }
 
                 }
+            } else {
+
+                msg = "Calificacion invalida";
 
             }
-        }
 
-        else{
-
-         msg = "Calificacion invalida";
-
-        }
-
-        if (found = false){
+        if (found = false) {
 
             msg = "Playlist no existe";
 
         }
+    }
+        else{
+
+            msg = "No se ha inciado sesion";
+
+        }
+
 
         return msg;
 
@@ -559,7 +537,56 @@ public class MCS {
 
     }
 
+
+    public String displayPublicPlaylists(){
+
+        String msg = "";
+        for (int i = 0; i < MAX_PLAYLISTS; i++) {
+
+            if (playlists[i] != null && playlists[i] instanceof PublicPlaylist) {
+
+                msg += playlists[i].showContents();
+
+            }
+        }
+        return msg;
+
     }
+
+    public String displayPrivatePlaylists(){
+
+        String msg = "";
+        for (int i = 0; i < MAX_PLAYLISTS; i++) {
+
+            if (playlists[i] != null && playlists[i] instanceof PrivatePlaylist) {
+
+                msg += playlists[i].showContents();
+
+            }
+        }
+        return msg;
+
+    }
+
+
+
+    public String displayRestrictedPlaylists(){
+
+        String msg = "";
+        for (int i = 0; i < MAX_PLAYLISTS; i++) {
+
+            if (playlists[i] != null && playlists[i] instanceof RestrictedPlaylist) {
+
+                msg += playlists[i].showContents();
+
+            }
+        }
+        return msg;
+
+    }
+
+    }
+
 
 
 

@@ -13,14 +13,14 @@ public class Playlist {
     private String duration;
     private Genre[] genres;
     private Song[] songs;
-    private String owner;
 
-    public Playlist(String name,String owner){
+
+    public Playlist(String name){
         this.name = name;
         duration = "0:0";
         genres = new Genre[MAX_GENRES];
         songs = new Song[MAX_SONGS];
-        this.owner = owner ;
+
     }
 
     public int getType(){

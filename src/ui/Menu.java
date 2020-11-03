@@ -27,9 +27,10 @@ public class Menu {
 
     public void showMenu() {
 
-        System.out.println("Por favor LOGIN, para identificarse");
-        System.out.println("Si es un usuario nuevo, REGISTER");
+        System.out.println("Para Registrar un usuario nuevo REGISTER");
+        System.out.println("LOGIN para identificarse");
         System.out.println("Para cambiar de usuario: LOGOUT, y luego LOGIN con el nuevo usuario");
+        System.out.println("Compartir una cancion y calificar una playlist requieren LOGIN");
 
         System.out.println("(1) LOGIN");
         System.out.println("(2) REGISTER");
@@ -143,7 +144,7 @@ public class Menu {
     public void editPlaylist() {
 
         int option;
-        System.out.println("(1) COMPARTIR PLAYLIST");
+        System.out.println("(1) AREGAR USUARIO A PLAYLIST");
         System.out.println("(2) AGREGAR MUSICA A PLAYLIST");
         option = readOption();
 
@@ -151,7 +152,11 @@ public class Menu {
 
             case 1:
 
-                System.out.println("PlayLists disponibles para compartir:");
+                System.out.println("PlayLists disponibles para agregar usuarios: ");
+                System.out.println("Playlists privadas: ");
+                System.out.println(mcs.displayPrivatePlaylists());
+                System.out.println("Playlists restringidas");
+                System.out.println(mcs.displayRestrictedPlaylists());
 
                 System.out.println("Ingrese nombre de la Playlist");
                 String playlistTitle = input.next();
@@ -177,11 +182,14 @@ public class Menu {
 
     public void ratePlaylist() {
 
+        System.out.println("Playlists publicas: ");
+        System.out.println(mcs.displayPublicPlaylists());
 
         System.out.println("Ingrese nombre de la playlist a calificar");
         String playlistName = input.next();
         System.out.println("Ingrese calificacion [1-5]");
         int rating = input.nextInt();
+
 
         System.out.println(mcs.ratePlaylist(playlistName, rating));
 

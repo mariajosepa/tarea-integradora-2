@@ -4,8 +4,8 @@ public class PrivatePlaylist extends Playlist {
 
     String user;
 
-    public PrivatePlaylist(String name, String owner){
-        super(name,owner);
+    public PrivatePlaylist(String name){
+        super(name);
         user = null;
     }
 

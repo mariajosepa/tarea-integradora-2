@@ -5,10 +5,10 @@ public class RestrictedPlaylist extends Playlist {
     private static final int MAX_USERS = 5;
     private String[] accesedBy;
 
-    public RestrictedPlaylist(String name, String owner) {
-        super(name,owner);
+    public RestrictedPlaylist(String name) {
+        super(name);
         accesedBy = new String[MAX_USERS];
-        accesedBy[0] = owner;
+
     }
 
     /**
