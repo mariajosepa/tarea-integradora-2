@@ -6,15 +6,16 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public static final int LOGIN = 1;
-    public static final int REGISTER = 2;
-    public static final int SHARE_SONG = 3;
-    public static final int MAKE_PLAYLIST = 4;
-    public static final int EDIT_PLAYLIST = 5;
-    public static final int RATE_PLAYLIST = 6;
-    public static final int SHOW_USERS = 7;
-    public static final int SHOW_PLAYLISTS = 8;
-    public static final int LOGOUT = 9;
+   // public static final int LOGIN = 1;
+    public static final int REGISTER = 1;
+    public static final int SHARE_SONG = 2;
+    public static final int MAKE_PLAYLIST = 3;
+    public static final int EDIT_PLAYLIST = 4;
+    public static final int RATE_PLAYLIST = 5;
+    public static final int SHOW_USERS = 6;
+    public static final int SHOW_PLAYLISTS = 7;
+    public static final int EXIT = 8;
+   // public static final int LOGOUT = 9;
 
     private static Scanner input = new Scanner(System.in);
     private MCS mcs;
@@ -25,6 +26,10 @@ public class Menu {
         mcs = new MCS();
     }
 
+    /**
+     * Displays all menu options
+     */
+
     public void showMenu() {
 
         System.out.println("Para Registrar un usuario nuevo REGISTER");
@@ -32,18 +37,24 @@ public class Menu {
         System.out.println("Para cambiar de usuario: LOGOUT, y luego LOGIN con el nuevo usuario");
         System.out.println("Compartir una cancion y calificar una playlist requieren LOGIN");
 
-        System.out.println("(1) LOGIN");
-        System.out.println("(2) REGISTER");
-        System.out.println("(3) COMPARTIR CANCION");
-        System.out.println("(4) CREAR PLAYLIST");
-        System.out.println("(5) EDITAR PLAYLIST");
-        System.out.println("(6) CALIFICAR PLAYLIST");
-        System.out.println("(7) MOSTRAR USUARIOS");
-        System.out.println("(8) MOSTRAR PLAYLISTS");
-        System.out.println("(9) LOGOUT");
-        System.out.println("(10)SALIR");
+       //System.out.println("(1) LOGIN");
+        System.out.println("(1) REGISTER");
+        System.out.println("(2) COMPARTIR CANCION");
+        System.out.println("(3) CREAR PLAYLIST");
+        System.out.println("(4) EDITAR PLAYLIST");
+        System.out.println("(5) CALIFICAR PLAYLIST");
+        System.out.println("(6) MOSTRAR USUARIOS");
+        System.out.println("(7) MOSTRAR PLAYLISTS");
+       // System.out.println("(8) LOGOUT");
+        System.out.println("(8)SALIR");
 
     }
+
+
+    /**
+     * Returns user's chosen option from the menu
+     * @return User's Option
+     */
 
     public int readOption() {
         int choice = input.nextInt();
@@ -52,7 +63,7 @@ public class Menu {
 
     }
 
-
+/*
     public void login() {
         String userName;
         String passWord;
@@ -63,11 +74,18 @@ public class Menu {
         System.out.println(mcs.login(userName, passWord));
 
     }
+*/
 
+    /*
     public void logOut() {
 
         System.out.println(mcs.logOut());
     }
+*/
+
+    /**
+     * Register's a new user
+     */
 
     public void register() {
         String userName;
@@ -85,14 +103,21 @@ public class Menu {
 
     }
 
-    public void shareSong() {
 
+    /**
+     * Shares a new song
+     */
+
+    public void shareSong() {
+        String username;
         String title;
         String artist;
         String releaseDate;
         String duration;
         int genre;
 
+        System.out.println("Ingrese nombre de usuario: ");
+        username = input.next();
         System.out.println("Titulo de la cancion: ");
         title = input.next();
         System.out.println("Artista: ");
@@ -104,9 +129,12 @@ public class Menu {
         displayGenres();
         genre = readOption();
 
-        System.out.println(mcs.addSongToPool(title, artist, releaseDate, duration, genre));
+        System.out.println(mcs.addSongToPool(title, artist, releaseDate, duration, genre,username));
     }
 
+    /**
+     * Displays genres
+     */
 
     public void displayGenres() {
 
@@ -120,6 +148,9 @@ public class Menu {
 
     }
 
+    /**
+     * Displays available types of playlists
+     */
     public void displayTypes() {
 
         System.out.println("(1)PRIVADA");
@@ -127,6 +158,10 @@ public class Menu {
         System.out.println("(3)PUBLICA");
 
     }
+
+    /**
+     * Creates a new playlist
+     */
 
     public void makePlaylist() {
 
@@ -140,6 +175,10 @@ public class Menu {
         System.out.println(mcs.createPlaylist(name, type));
 
     }
+
+    /**
+     * Displays and executes the different options of editing a playlist (adding users, adding music to a playlist)
+     */
 
     public void editPlaylist() {
 
@@ -180,21 +219,32 @@ public class Menu {
 
     }
 
+    /**
+     * Allows the user to give playlists a rating
+     */
+
     public void ratePlaylist() {
 
         System.out.println("Playlists publicas: ");
         System.out.println(mcs.displayPublicPlaylists());
 
+
+
+        System.out.println("Ingrese nombre de usuario");
+        String username = input.next();
         System.out.println("Ingrese nombre de la playlist a calificar");
         String playlistName = input.next();
         System.out.println("Ingrese calificacion [1-5]");
         int rating = input.nextInt();
 
 
-        System.out.println(mcs.ratePlaylist(playlistName, rating));
+        System.out.println(mcs.ratePlaylist(playlistName, rating, username));
 
     }
 
+    /**
+     * Displays all registered users
+     */
 
     public void displayUsers() {
 
@@ -203,13 +253,20 @@ public class Menu {
 
     }
 
+    /**
+     * Takes the user's menu option and launches the corresponding operation
+     * @param option
+     */
+
     public void doOperation(int option) {
 
         switch (option) {
-
+            /*
             case LOGIN:
                 login();
                 break;
+
+             */
             case REGISTER:
                 register();
                 break;
@@ -231,16 +288,20 @@ public class Menu {
             case SHOW_PLAYLISTS:
                 displayPlaylists();
                 break;
+                /*
             case LOGOUT:
                 logOut();
                 break;
-
+*/
 
         }
 
 
     }
 
+    /**
+     * Initializes the menu
+     */
 
     public void startProgram(){
 
@@ -256,7 +317,9 @@ public class Menu {
 
     }
 
-
+    /**
+     * Displays all created playlists
+     */
     public void displayPlaylists(){
 
         System.out.println(mcs.displayPlaylists());

@@ -62,14 +62,28 @@ public class MCS {
      * @return  Message stating if the song was added or not to the song pool
      */
 
-    public String addSongToPool(String title, String artist, String releaseDate, String duration, int genre) {
+    public String addSongToPool(String title, String artist, String releaseDate, String duration, int genre, String username) {
 
         Song newSong = new Song(title, artist, releaseDate, duration, genre);
         boolean added = false;
         String msg = "";
-        int userIndex = loggedIn;
+        int userIndex = 100;
 
-        if (userIndex != 10) {
+        boolean verified = false;
+
+        for (int i = 0; i < MAX_USERS && !verified; i++) {
+
+            if (users[i] != null) {
+                if (users[i].getUserName().equals(username)) {
+
+                        verified = true;
+                        userIndex = i;
+
+                }
+            }
+        }
+
+        if (verified && userIndex != 100) {
 
             for (int i = 0; i < MAX_SONGS && !added; i++) {
 
@@ -89,11 +103,12 @@ public class MCS {
 
         } else {
 
-            msg = "No se ha iniciado sesion" + "\n";
+            msg = "No existe ese usuario" + "\n";
         }
 
         return msg;
     }
+
 
     /**
      * Method for logging in a user
@@ -103,6 +118,7 @@ public class MCS {
      * @return Message stating if user was identified in the application's registered users
      */
 
+    /*
     public String login(String userName, String password) {
 
         boolean verified = false;
@@ -126,19 +142,21 @@ public class MCS {
 
         return msg;
     }
+*/
+
 
     /**
      * Method for logging out a current user
      * @return Message stating if user has been logged off or not
      */
-
+/*
     public String logOut() {
 
         loggedIn = 10;
         return "¡Hasta pronto!";
 
     }
-
+*/
     /**
      * Method that verifies how many songs each registered user has shared, and assigns a category accordingly
      */
@@ -245,10 +263,6 @@ public class MCS {
         int songIndex = 0;
 
 
-        if (loggedIn != 10) {
-            //System.out.println("Ingrese titulo de cancion que desea agregar");
-            //title = input.next();
-
             for (int i = 0; i < MAX_SONGS && !found; i++) {
 
                 if (songPool[i] != null) {
@@ -266,8 +280,6 @@ public class MCS {
 
                 found = false;
                 displayPlaylists();
-               //System.out.println("Ingrese nombre de la playlist a la que desea agregar");
-               // title = input.next();
 
                 for (int i = 0; i < MAX_PLAYLISTS && !found; i++) {
 
@@ -290,10 +302,13 @@ public class MCS {
                     msg = "No existe esa PlayList" + "\n";
                 }
             }
-        }
-        else {
-            msg = "No se ha iniciado sesion";
-        }
+
+            else{
+
+                msg = "Cancion no encontrada";
+
+            }
+
 
         return msg;
 
@@ -373,32 +388,6 @@ public class MCS {
         boolean playlistFound = false;
         boolean userFound = false;
 
-        /*
-        //System.out.println("PLAYLISTS RESTRINGIDAS: ");
-        boolean verified = false;
-
-        for (int i = 0; i < MAX_PLAYLISTS; i++) {
-
-            if (playlists[i] != null && playlists[i].getType() == 2) {
-
-                //String[] accesedBy = ((RestrictedPlaylist) playlists[i]).getAccesedBy();
-
-                for (int j = 0; j < 5; j++) {
-
-                    //if (users[loggedIn].getUserName().equals(accesedBy[j])) {
-
-                    playlists[i].showContents();
-                    msg = "Acceso permitido";
-                    verified = true;
-
-
-                }
-
-            }
-
-        }
-
-         */
 
            for (int i = 0; i < MAX_PLAYLISTS; i++) {
 
@@ -468,12 +457,26 @@ public class MCS {
      * @return Message stating if the rating was successfully added
      */
 
-    public String ratePlaylist(String playlistName, int rating) {
+    public String ratePlaylist(String playlistName, int rating, String username) {
 
         boolean found = false;
         String msg = "No hay playlists para calificar" + "\n";
 
-        if (loggedIn != 10){
+        boolean verified = false;
+
+        for (int i = 0; i < MAX_USERS && !verified; i++) {
+
+            if (users[i] != null) {
+                if (users[i].getUserName().equals(username)) {
+
+                    verified = true;
+
+                }
+            }
+        }
+
+
+        if (verified){
 
             if (rating >= 1 && rating <= 5) {
                 for (int i = 0; i < MAX_PLAYLISTS && !found; i++) {
@@ -493,7 +496,7 @@ public class MCS {
 
             }
 
-        if (found = false) {
+        if (!found) {
 
             msg = "Playlist no existe";
 
@@ -501,7 +504,7 @@ public class MCS {
     }
         else{
 
-            msg = "No se ha inciado sesion";
+            msg = "No se encontro el usuario";
 
         }
 
@@ -537,6 +540,10 @@ public class MCS {
 
     }
 
+    /**
+     * Displays all created public playlists
+     * @return All public playlists
+     */
 
     public String displayPublicPlaylists(){
 
@@ -553,6 +560,11 @@ public class MCS {
 
     }
 
+    /**
+     * Displays all created private playlists
+     * @return All private playlists
+     */
+
     public String displayPrivatePlaylists(){
 
         String msg = "";
@@ -568,7 +580,10 @@ public class MCS {
 
     }
 
-
+    /**
+     * Displays all created restricted playlists
+     * @return All restricted playlists
+     */
 
     public String displayRestrictedPlaylists(){
 

@@ -3,11 +3,12 @@ package model;
 public class PublicPlaylist extends Playlist{
 
     private double rating;
-    private int rated;
+    private double rated;
 
     public PublicPlaylist(String name) {
         super(name);
         rating = 0;
+        rated = 0;
     }
 
     /**
@@ -40,7 +41,7 @@ public class PublicPlaylist extends Playlist{
 
     public double getRating(){
 
-        if (rating >0) {
+        if (rated >0) {
             rating = rating / rated;
 
         }
