@@ -293,7 +293,6 @@ public class MCS {
             if (playlists[i] != null) {
                 if (playlists[i] instanceof PrivatePlaylist) {
 
-                    System.out.println("HOLA EH");
                        msg+= playlists[i].showContents();
 
                 }
@@ -438,23 +437,27 @@ public class MCS {
                     }
 
                 }
+
+                if (!found) {
+
+                    msg = "No hay playlists calificables con ese nombre";
+
+                }
+
+
             } else {
 
                 msg = "Calificacion invalida";
 
             }
 
-        if (!found) {
-
-            msg = "No hay playlists calificables con ese nombre";
-
         }
-    }
         else{
 
             msg = "No se encontro el usuario";
 
         }
+
 
 
         return msg;

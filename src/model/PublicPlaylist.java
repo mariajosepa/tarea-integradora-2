@@ -3,11 +3,13 @@ package model;
 public class PublicPlaylist extends Playlist{
 
     private double rating;
-    private double rated;
+    private double ratingTotal;
+    private int rated;
 
     public PublicPlaylist(String name) {
         super(name);
-        rating = 0;
+        rating = 0.0;
+        ratingTotal = 0;
         rated = 0;
     }
 
@@ -19,30 +21,31 @@ public class PublicPlaylist extends Playlist{
 
     public void addRating(int rating){
 
-        this.rating += rating;
+        System.out.println(this.rating);
+        System.out.println(rated);
+
+        ratingTotal += rating;
         rated++;
+
+        this.rating = ratingTotal / rated;
+
+        System.out.println(this.rating);
+        System.out.println(rated);
 
     }
 
-    /**
-     * Returns the current rating of the playlist by averaging all ratings
-     * @return total rating of the playlist
-     */
 
+    /**
+     * Return's the playlist's rating
+     * @return current playlist rating
+     */
 
     public double getRating(){
 
-        if (rated >0) {
-            rating = rating / rated;
-
-        }
-        else{
-
-            rating = 0;
-        }
-
         return rating;
+
     }
+
 
     /**
      * Displays information about the playlist

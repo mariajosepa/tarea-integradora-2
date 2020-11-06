@@ -169,7 +169,7 @@ public class Menu {
                 System.out.println("PlayLists disponibles para agregar usuarios: ");
                 System.out.println("Playlists privadas: ");
                 System.out.println(mcs.displayPrivatePlaylists());
-                System.out.println("Playlists restringidas");
+                System.out.println("Playlists restringidas: ");
                 System.out.println(mcs.displayRestrictedPlaylists());
 
                 System.out.println("Ingrese nombre de la Playlist");
@@ -182,8 +182,12 @@ public class Menu {
                 break;
 
             case 2:
+                System.out.println("Canciones Compartidas: ");
+                System.out.println(mcs.displaySongs());
                 System.out.println("Ingrese nombre de la cancion a agregar");
                 String songTitle = input.next();
+                System.out.println("Playlists creadas: ");
+                System.out.println(mcs.displayPlaylists());
                 System.out.println("Ingrese nombre de la playlist a editar");
                 String playlistName = input.next();
                 System.out.println(mcs.addSongToPlaylist(songTitle, playlistName));
@@ -195,18 +199,14 @@ public class Menu {
                 System.out.println(mcs.displayPublicPlaylists());
 
 
-
-                System.out.println("Ingrese nombre de usuario");
-                String username = input.next();
                 System.out.println("Ingrese nombre de la playlist a calificar");
                 String playlistName1 = input.next();
                 System.out.println("Ingrese calificacion [1-5]");
                 int rating = input.nextInt();
-
+                System.out.println("Ingrese nombre de usuario");
+                String username = input.next();
 
                 System.out.println(mcs.ratePlaylist(playlistName1, rating, username));
-
-
                 break;
 
 

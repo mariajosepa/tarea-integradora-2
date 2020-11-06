@@ -6,7 +6,7 @@ public class PrivatePlaylist extends Playlist {
 
     public PrivatePlaylist(String name){
         super(name);
-        user = "";
+        this.user = "";
     }
 
 
@@ -17,11 +17,15 @@ public class PrivatePlaylist extends Playlist {
      */
     public String addUser(String user){
 
-        String msg = "No se pueden agregar mas usuarios";
-
+        String msg = "";
+        if(this.user.isEmpty()) {
             this.user = user;
             msg = "Usuario anadido";
+        }
+        else{
+            msg = "No se pueden agregar mas usuarios";
 
+        }
         return msg;
 
     }
