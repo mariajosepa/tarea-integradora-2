@@ -23,11 +23,10 @@ public class Playlist {
 
     }
 
-    public int getType(){
-
-        return 0;
-    }
-
+    /**
+     * Returns the playlist name
+     * @return playlist's name
+     */
     public String getName() {
         return name;
     }

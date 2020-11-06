@@ -6,7 +6,7 @@ public class PrivatePlaylist extends Playlist {
 
     public PrivatePlaylist(String name){
         super(name);
-        user = null;
+        user = "";
     }
 
 
@@ -18,26 +18,46 @@ public class PrivatePlaylist extends Playlist {
     public String addUser(String user){
 
         String msg = "No se pueden agregar mas usuarios";
-        if(this.user == null){
+
             this.user = user;
             msg = "Usuario anadido";
 
-        }
-
         return msg;
-
 
     }
 
     /**
-     * Returns the playlist type (1)
-     * @return playlist type (1) (private)
+     * Returns user with access to the playlist
+     * @return Only user with access to the playlist
      */
-    @Override
-    public int getType(){
 
-        return 1;
+    public String getUser(){
+
+        return user;
+
     }
+
+
+    /**
+     * Displays the playlist's characteristics
+     * @return
+     */
+
+    @Override
+    public String showContents (){
+
+        String msg;
+        msg = "**************  Playlist **************\n";
+        msg += "**  Title: " + getName() + "\n";
+        msg += "**  Duration: " + getDuration() + "\n";
+        msg += "**  Genre: " + findGenre() + "\n";
+        msg+=  "**  User:  "+ getUser()  + "\n";
+        msg += "***************************************" + "\n";
+
+        return msg;
+
+    }
+
 
 
 }

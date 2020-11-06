@@ -1,9 +1,5 @@
 package model;
 
-import java.awt.desktop.UserSessionEvent;
-import java.util.Arrays;
-import java.util.Scanner;
-
 public class MCS {
 
     private static final int MAX_USERS = 10;
@@ -44,7 +40,7 @@ public class MCS {
             if (users[i] == null) {
                 users[i] = newUser;
                 added = true;
-                msg = "Bienvenido a MCS: " + newUser.getUserName();
+                msg = "Bienvenido a MCS: " + newUser.getUserName() + "\n";
 
             }
 
@@ -91,7 +87,7 @@ public class MCS {
 
                     songPool[i] = newSong;
                     users[userIndex].shareSong();
-                    msg = "Cancion anadida al Pool";
+                    msg = "Cancion anadida al Pool" + "\n";
                     added = true;
 
                 }
@@ -109,54 +105,6 @@ public class MCS {
         return msg;
     }
 
-
-    /**
-     * Method for logging in a user
-     * An existing user has to be registered before logging in
-     * @param userName Registered username
-     * @param password Registered password
-     * @return Message stating if user was identified in the application's registered users
-     */
-
-    /*
-    public String login(String userName, String password) {
-
-        boolean verified = false;
-        String msg = "Usuario no existe (Register)" + "\n";
-
-        for (int i = 0; i < MAX_USERS && !verified; i++) {
-
-            if (users[i] != null) {
-                if (users[i].getUserName().equals(userName)) {
-
-                    if (users[i].getPassWord().equals(password)) {
-
-                        verified = true;
-                        loggedIn = i;
-                        msg = "Bienvenido " + users[loggedIn].getUserName() + "\n";
-                    }
-
-                }
-            }
-        }
-
-        return msg;
-    }
-*/
-
-
-    /**
-     * Method for logging out a current user
-     * @return Message stating if user has been logged off or not
-     */
-/*
-    public String logOut() {
-
-        loggedIn = 10;
-        return "¡Hasta pronto!";
-
-    }
-*/
     /**
      * Method that verifies how many songs each registered user has shared, and assigns a category accordingly
      */
@@ -329,7 +277,7 @@ public class MCS {
 
             if (playlists[i] != null) {
 
-                if (playlists[i].getType() == 3) {
+                if (playlists[i] instanceof PublicPlaylist ) {
 
                     msg += playlists[i].showContents();
 
@@ -343,7 +291,7 @@ public class MCS {
         for (int i = 0; i < MAX_PLAYLISTS; i++) {
 
             if (playlists[i] != null) {
-                if (playlists[i].getType() == 1) {
+                if (playlists[i] instanceof PrivatePlaylist) {
 
                     System.out.println("HOLA EH");
                        msg+= playlists[i].showContents();
@@ -415,14 +363,14 @@ public class MCS {
 
                 for (int i = 0; i < MAX_PLAYLISTS && !added; i++) {
 
-                    if (playlists[i] != null && playlists[i].getName().equals(playlistTitle) && playlists[i].getType() == 2) {
+                    if (playlists[i] != null && playlists[i].getName().equals(playlistTitle) && playlists[i] instanceof RestrictedPlaylist) {
 
                         msg = ((RestrictedPlaylist) playlists[i]).addUser(userName);
                         added = true;
 
                     }
 
-                    if (playlists[i] != null && playlists[i].getName().equals(playlistTitle) && playlists[i].getType() == 1) {
+                    if (playlists[i] != null && playlists[i].getName().equals(playlistTitle) && playlists[i] instanceof PrivatePlaylist) {
 
                         msg = ((PrivatePlaylist) playlists[i]).addUser(userName);
 
@@ -430,7 +378,7 @@ public class MCS {
 
                     }
 
-                    if(playlists[i] != null && playlists[i].getType() == 3 && playlists[i].equals(playlistTitle)){
+                    if(playlists[i] != null && playlists[i] instanceof PublicPlaylist && playlists[i].equals(playlistTitle)){
 
                         msg = "No se pueden agregar usuarios a una playlist publica";
 
@@ -498,7 +446,7 @@ public class MCS {
 
         if (!found) {
 
-            msg = "Playlist no existe";
+            msg = "No hay playlists calificables con ese nombre";
 
         }
     }
@@ -599,6 +547,31 @@ public class MCS {
         return msg;
 
     }
+
+    /**
+     * Displays all shared songs in the song pool
+     * @return all shared songs in the song pool with their characteristics
+     */
+
+    public String displaySongs(){
+
+        String msg = "";
+
+        for (int i = 0; i < MAX_SONGS ; i++) {
+
+            if(songPool[i] != null){
+
+                msg += songPool[i].showContents() + "\n";
+
+            }
+
+        }
+
+        return msg;
+
+    }
+
+
 
     }
 

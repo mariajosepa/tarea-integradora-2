@@ -2,13 +2,12 @@ package model;
 
 public class User {
 
-    //private static final int MAX_PLAYLISTS = 20;
     private String userName;
     private String passWord;
     private int age;
     private Category category;
     private int sharedSongs;
-    //private Playlist[] playlists;
+
 
     public User(String userName, String passWord, int age){
 
@@ -17,22 +16,32 @@ public class User {
         this.age = age;
         category = Category.NEWBIE;
         sharedSongs = 0;
-        //playlists = new Playlist[MAX_PLAYLISTS];
+
 
     }
+
+    /**
+     * Returns user's username
+     * @return username
+     */
 
     public String getUserName() {
 
         return userName;
     }
-
-
+    /**
+     * Returns user's password
+     * @return password
+     */
     public String getPassWord() {
 
         return passWord;
     }
 
-
+    /**
+     * returns user's age
+     * @return age
+     */
     public int getAge() {
 
         return age;
@@ -52,15 +61,28 @@ public class User {
 
     }
 
+    /**
+     * Returns number of songs the user has shared
+     * @return number of shared songs
+     */
+
     public int getSharedSongs() {
 
         return sharedSongs;
     }
 
-
+    /**
+     * Returns the assigned user category
+     * @return user's category
+     */
     public Category getCategory() {
         return category;
     }
+
+    /**
+     * Assings a category to the user
+     * @param category
+     */
 
     public void setCategory(Category category) {
         this.category = category;

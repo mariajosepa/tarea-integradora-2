@@ -11,15 +11,6 @@ public class PublicPlaylist extends Playlist{
         rated = 0;
     }
 
-    /**
-     * Returns playlist type (3)
-     * @return playlist type (3) (public)
-     */
-    @Override
-    public int getType(){
-
-        return 3;
-    }
 
     /**
      * Adds a new rating to the playlist

@@ -1,5 +1,6 @@
 package model;
 
+
 public class RestrictedPlaylist extends Playlist {
 
     private static final int MAX_USERS = 5;
@@ -40,15 +41,47 @@ public class RestrictedPlaylist extends Playlist {
     }
 
     /**
-     * Returns playlist type (2)
-     * @return playlist type (2) (restricted)
+     * Returns users with access to the playlist
+     * @return users with access to the playlist
+     */
+
+    public String getUsers(){
+
+        String users = "";
+        for (int i = 0; i < MAX_USERS; i++) {
+
+            if (accesedBy[i] != null){
+
+                users += accesedBy[i] + " ";
+
+            }
+
+        }
+
+        return users;
+
+    }
+
+    /**
+     * Displays the playlist's characteristics
+     * @return
      */
 
     @Override
-    public int getType(){
+    public String showContents (){
 
-        return 2;
+        String msg;
+        msg = "**************  Playlist **************\n";
+        msg += "**  Title: " + getName() + "\n";
+        msg += "**  Duration: " + getDuration() + "\n";
+        msg += "**  Genre: " + findGenre() + "\n";
+        msg+=  "**  Users:  "+ getUsers()  + "\n";
+        msg += "***************************************" + "\n";
+
+        return msg;
+
     }
+
 
 
     
