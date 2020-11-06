@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Playlist {
+public abstract class Playlist {
 
     private static final int MAX_GENRES = 6;
     private static final int MAX_SONGS = 10;
@@ -152,19 +152,7 @@ public class Playlist {
      * Displays information about the playlist
      * @return information about the playlist
      */
-    public String showContents(){
-
-        String msg;
-        msg = "**************  Playlist **************\n";
-        msg += "**  Title: " + getName() + "\n";
-        msg += "**  Duration: " + getDuration() + "\n";
-        msg += "**  Genre: " +findGenre() + "\n";
-        msg += "***************************************" + "\n";
-
-       return msg;
-
-
-    }
+    public abstract String showContents();
 
 }
 
